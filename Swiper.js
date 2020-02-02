@@ -51,6 +51,7 @@ class Swiper extends Component {
       slideGesture: false,
       swipeBackXYPositions: [],
       isSwipingBack: false,
+      childrenVersion: 0,
       ...rebuildStackAnimatedValues(props)
     }
 
@@ -77,7 +78,8 @@ class Swiper extends Component {
       nextState.secondCardIndex !== state.secondCardIndex ||
       nextState.previousCardIndex !== state.previousCardIndex ||
       nextState.labelType !== state.labelType ||
-      nextState.swipedAllCards !== state.swipedAllCards
+      nextState.swipedAllCards !== state.swipedAllCards ||
+      nextState.childrenVersion !== state.childrenVersion
     )
     return propsChanged || stateChanged
   }
@@ -87,6 +89,10 @@ class Swiper extends Component {
     this.state.pan.x.removeAllListeners()
     this.state.pan.y.removeAllListeners()
     Dimensions.removeEventListener('change', this.onDimensionsChange)
+  }
+
+  updateChildren = () => {
+    this.setState({ childrenVersion: this.state.childrenVersion + 1 })
   }
 
   getCardStyle = () => {
